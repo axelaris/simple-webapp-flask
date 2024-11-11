@@ -17,7 +17,6 @@ def hello():
 @app.route('/kv')
 def kv():
     KV_NAME = os.getenv('KV_NAME')
-    VAULT_NAME = "https://"+KV_NAME+".vault.azure.net/"
     KEY_VAULT_SECRET_NAME = os.getenv('SECRET_NAME')
 
     try:
@@ -35,7 +34,7 @@ def kv():
 
     try:
         secret_client = SecretClient(
-            vault_url=f"https://{VAULT_NAME}.vault.azure.net/", credential=credential)
+            vault_url=f"https://{KV_NAME}.vault.azure.net/", credential=credential)
         secret = secret_client.get_secret(f"{KEY_VAULT_SECRET_NAME}")
     except Exception:
         logger.error('Failed to get secret', exc_info=True)
@@ -43,7 +42,7 @@ def kv():
             'Failed to get secret'
         )
 
-    OUTPUT='KeyVault name is '+VAULT_NAME+", secret name is "+KEY_VAULT_SECRET_NAME+", value is "+secret.value
+    OUTPUT='KeyVault name is '+KV_NAME+", secret name is "+KEY_VAULT_SECRET_NAME+", value is "+secret.value
 
     return OUTPUT
 
