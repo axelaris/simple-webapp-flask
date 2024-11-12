@@ -14,6 +14,10 @@ def main():
 def hello():
     return 'I am good, how about you?'
 
+@app.route('/ver')
+def ver():
+    return '24-11-12.12-0'
+
 @app.route('/kv')
 def kv():
     KV_NAME = os.getenv('KV_NAME')
