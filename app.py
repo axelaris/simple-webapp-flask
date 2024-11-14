@@ -1,4 +1,5 @@
 import os
+import signal
 from flask import Flask
 import logging
 from azure.identity import DefaultAzureCredential
@@ -10,9 +11,13 @@ app = Flask(__name__)
 def main():
     return "Welcome!"
 
-@app.route('/how are you')
-def hello():
-    return 'I am good, how about you?'
+@app.route('/shutdown')
+def shutdown():
+    os.kill(os.getpid(), signal.SIGINT)
+
+@app.route('/pid')
+def getpid():
+    return str(os.getpid())
 
 @app.route('/ver')
 def ver():
